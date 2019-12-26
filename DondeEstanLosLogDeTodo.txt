@@ -1,0 +1,13 @@
+DondeEstanLosLogsDeTodo.txt
+Los logs del mosquitto estan en :
+/var/log/mosquitto
+
+Los logs de grafana esta en :
+/var/log/grafana
+
+Los logs de Influxdb estan en:
+NO HAY!!!
+/var/log/influxdb
+
+Los logs de nginx estan en:
+/var/log/ngin

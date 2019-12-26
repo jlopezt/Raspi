@@ -1,0 +1,40 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          monitorMQTT
+# Required-Start:    nada
+# Required-Stop:     nada
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Arranque de los monitores de MQTT, se suscriben a topics del bus e insertan registros en
+la BD de Influx
+### END INIT INFO
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+# If you need to source some other scripts, do it here
+
+case "$1" in
+  start)
+    echo "Arrancando el servicio...."
+    log_begin_msg "Arranco los monitores"
+# do something
+    #nohup python /opt/monitorMQTT/MQTT_log.py > /opt/monitorMQTT/logs/salida.log &
+    python /opt/monitorMQTT/MQTT_log.py > /opt/monitorMQTT/logs/salida.log &
+    log_end_msg $?
+    exit 0
+    ;;
+  stop)
+    log_begin_msg "Mato la ejecucion en curso..."
+
+    # do something to kill the service or cleanup or nothing
+    kill -9 `ps -ef|grep -v grep |grep monitorMQTT | awk '{print $2}'`
+    log_end_msg $?
+    exit 0
+    ;;
+  *)
+    echo "Uso: /etc/init.d/monitorMQTT {start|stop}"
+    exit 1
+    ;;
+esac
