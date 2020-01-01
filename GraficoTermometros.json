@@ -1,0 +1,147 @@
+{
+  "cacheTimeout": null,
+  "gridPos": {
+    "h": 8,
+    "w": 5,
+    "x": 0,
+    "y": 0
+  },
+  "id": 2,
+  "links": [
+    {
+      "includeVars": true,
+      "keepTime": true,
+      "targetBlank": true,
+      "title": "Termometro Salon",
+      "type": "absolute",
+      "url": "http://10.68.1.62"
+    }
+  ],
+  "options": {
+    "maxValue": "50",
+    "minValue": "-10",
+    "orientation": "auto",
+    "showThresholdLabels": false,
+    "showThresholdMarkers": true,
+    "thresholds": [
+      {
+        "color": "dark-blue",
+        "index": 0,
+        "value": null
+      },
+      {
+        "color": "dark-green",
+        "index": 1,
+        "value": 0
+      },
+      {
+        "color": "#EAB839",
+        "index": 2,
+        "value": 22
+      },
+      {
+        "color": "dark-red",
+        "index": 3,
+        "value": 35
+      }
+    ],
+    "valueMappings": [
+      {
+        "from": "",
+        "id": 1,
+        "operator": "",
+        "text": "Valor de la consigna de dia",
+        "to": "",
+        "type": 1,
+        "value": "ConsignaDia"
+      },
+      {
+        "from": "",
+        "id": 2,
+        "operator": "",
+        "text": "Valor de la consigna de noche",
+        "to": "",
+        "type": 1,
+        "value": "ConsignaNoche"
+      },
+      {
+        "from": "",
+        "id": 3,
+        "operator": "",
+        "text": "Valor minimo de temperatura",
+        "to": "",
+        "type": 1,
+        "value": "Minimo"
+      },
+      {
+        "from": "",
+        "id": 4,
+        "operator": "",
+        "text": "Valor maximo de temperatura",
+        "to": "",
+        "type": 1,
+        "value": "Maximo"
+      }
+    ],
+    "valueOptions": {
+      "decimals": 1,
+      "prefix": "",
+      "stat": "mean",
+      "suffix": "",
+      "unit": "celsius"
+    }
+  },
+  "pluginVersion": "6.1.6",
+  "targets": [
+    {
+      "alias": "TemperaturaSalon",
+      "groupBy": [
+        {
+          "params": [
+            "1m"
+          ],
+          "type": "time"
+        },
+        {
+          "params": [
+            "null"
+          ],
+          "type": "fill"
+        }
+      ],
+      "measurement": "termostatix",
+      "orderByTime": "ASC",
+      "policy": "default",
+      "query": "SELECT mean(\"Temperatura\") FROM \"termostatix\" WHERE (\"id\" = '2') AND $timeFilter GROUP BY time(1m) fill(null)",
+      "rawQuery": false,
+      "refId": "A",
+      "resultFormat": "time_series",
+      "select": [
+        [
+          {
+            "params": [
+              "Temperatura"
+            ],
+            "type": "field"
+          },
+          {
+            "params": [],
+            "type": "mean"
+          }
+        ]
+      ],
+      "tags": [
+        {
+          "key": "id",
+          "operator": "=",
+          "value": "2"
+        }
+      ]
+    }
+  ],
+  "timeFrom": null,
+  "timeShift": null,
+  "title": "Temperatura Salon",
+  "transparent": true,
+  "type": "gauge"
+}

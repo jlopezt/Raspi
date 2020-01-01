@@ -64,6 +64,14 @@ esac
 
 3.- ejecutado el comando "update-rc.d <script-monitorMQTT> defaults" para que arranque con la raspi
 
+4.- Se para y arranca asi:
+
+sudo service monitorMQTT stop
+sudo service monitorMQTT start
+
+
+
+
 Enlaces:
 
 https://www.raspberrypi.org/forums/viewtopic.php?t=70520

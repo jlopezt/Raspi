@@ -1,0 +1,257 @@
+{
+  "aliasColors": {},
+  "bars": false,
+  "cacheTimeout": null,
+  "dashLength": 10,
+  "dashes": false,
+  "datasource": "InfluxDB",
+  "fill": 1,
+  "gridPos": {
+    "h": 17,
+    "w": 17,
+    "x": 0,
+    "y": 0
+  },
+  "id": 2,
+  "interval": "",
+  "legend": {
+    "avg": true,
+    "current": false,
+    "hideEmpty": true,
+    "max": false,
+    "min": false,
+    "rightSide": false,
+    "show": true,
+    "total": false,
+    "values": true
+  },
+  "lines": true,
+  "linewidth": 1,
+  "links": [],
+  "nullPointMode": "null",
+  "percentage": false,
+  "pluginVersion": "6.1.6",
+  "pointradius": 2,
+  "points": false,
+  "renderer": "flot",
+  "repeat": null,
+  "seriesOverrides": [],
+  "spaceLength": 10,
+  "stack": false,
+  "steppedLine": false,
+  "targets": [
+    {
+      "alias": "",
+      "groupBy": [
+        {
+          "params": [
+            "1m"
+          ],
+          "type": "time"
+        },
+        {
+          "params": [
+            "habitacion"
+          ],
+          "type": "tag"
+        }
+      ],
+      "measurement": "termostatix",
+      "orderByTime": "ASC",
+      "policy": "autogen",
+      "query": "SELECT mean(\"Temperatura\") FROM \"autogen\".\"termostatix\" WHERE $timeFilter GROUP BY time(1m), \"habitacion\"",
+      "rawQuery": true,
+      "refId": "A",
+      "resultFormat": "time_series",
+      "select": [
+        [
+          {
+            "params": [
+              "Temperatura"
+            ],
+            "type": "field"
+          },
+          {
+            "params": [],
+            "type": "mean"
+          }
+        ]
+      ],
+      "tags": []
+    }
+  ],
+  "thresholds": [],
+  "timeFrom": null,
+  "timeRegions": [
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "4:45",
+      "fromDayOfWeek": 1,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "6:30"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "12:30",
+      "fromDayOfWeek": 1,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "4:45",
+      "fromDayOfWeek": 2,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "6:30"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "15:30",
+      "fromDayOfWeek": 2,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "4:45",
+      "fromDayOfWeek": 3,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "6:30"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "15:30",
+      "fromDayOfWeek": 3,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "4:45",
+      "fromDayOfWeek": 4,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "6:30"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "12:30",
+      "fromDayOfWeek": 4,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "4:45",
+      "fromDayOfWeek": 5,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "6:30"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "12:30",
+      "fromDayOfWeek": 5,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "7:00",
+      "fromDayOfWeek": 6,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    },
+    {
+      "colorMode": "green",
+      "fill": true,
+      "fillColor": "rgba(234, 112, 112, 0.12)",
+      "from": "7:00",
+      "fromDayOfWeek": 7,
+      "line": false,
+      "lineColor": "rgba(237, 46, 24, 0.60)",
+      "op": "time",
+      "to": "22:00"
+    }
+  ],
+  "timeShift": null,
+  "title": "Temperaturas",
+  "tooltip": {
+    "shared": true,
+    "sort": 1,
+    "value_type": "individual"
+  },
+  "type": "graph",
+  "xaxis": {
+    "buckets": null,
+    "mode": "time",
+    "name": null,
+    "show": true,
+    "values": []
+  },
+  "yaxes": [
+    {
+      "decimals": 1,
+      "format": "celsius",
+      "label": "Temperatura",
+      "logBase": 1,
+      "max": null,
+      "min": null,
+      "show": true
+    },
+    {
+      "format": "short",
+      "label": "",
+      "logBase": 1,
+      "max": null,
+      "min": null,
+      "show": false
+    }
+  ],
+  "yaxis": {
+    "align": true,
+    "alignLevel": null
+  }
+}
