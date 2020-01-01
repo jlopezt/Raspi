@@ -55,11 +55,16 @@ def on_message(client, userdata, msg):
     humedad= decoded["Humedad"]
     luz= decoded["Luz"]
 
+    #leo la habitacion
+    cadena=str(msg.topic)
+    habitacion = cadena.split("/")[1]
+
     json_body = [
         {
         "measurement": Measurement,
         "tags": {
             "id": id,
+            "habitacion": habitacion,
             "topic": str(msg.topic)
             },
         "time": current_time,
@@ -73,8 +78,8 @@ def on_message(client, userdata, msg):
 
     print(" ");
     print(json_body)
-    if not clienteInflux.write_points(json_body):
-        print ("Error al insertar datos")
+    if not clienteInflux.write_points(json_body): 
+    	print ("Error al insertar datos")
     print("-----------------------------------------------------");
 
 # to send a message
