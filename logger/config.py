@@ -120,14 +120,14 @@ class Configuracion:
         if (debug==True): print("Measurement = %s" %self.__Measurement)
 
 
-    def setBroker_IP(self,valor): self.__Broker_IP=valor
+    def setBroker_IP(self,valor): self.__Broker_IP=str(valor)
     def setBroker_Puerto(self,valor): self.__Broker_Puerto=valor
-    def setsub_topic(self,valor): self.__sub_topic=valor
-    def setpub_topic(self,valor): self.__pub_topic=valor
-    def setDB_IP(self,valor): self.__DB_IP=valor
+    def setsub_topic(self,valor): self.__sub_topic=str(valor)
+    def setpub_topic(self,valor): self.__pub_topic=str(valor)
+    def setDB_IP(self,valor): self.__DB_IP=str(valor)
     def setDB_Puerto(self,valor): self.__DB_Puerto=valor
-    def setBaseDatos(self,valor): self.__BaseDatos=valor
-    def setMeasurement(self,valor): self.__Measurement=valor
+    def setBaseDatos(self,valor): self.__BaseDatos=str(valor)
+    def setMeasurement(self,valor): self.__Measurement=str(valor)
 
     def getBroker_IP(self): return self.__Broker_IP
     def getBroker_Puerto(self): return self.__Broker_Puerto

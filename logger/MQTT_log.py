@@ -22,9 +22,10 @@ def main(argv):
     configFile = ''
     outputFile = ''
     verbose = False
+    pantalla = False
 
     try:
-        opts, arg = getopt.getopt(argv,"hvi:o:",["ifile=","ofile="])
+        opts, arg = getopt.getopt(argv,"phvc:o:",["ifile=","ofile="])
     except getopt.GetoptError:
         print 'MQTT_log.py -c <configfile> -o <outputfile>'
         sys.exit(2)
@@ -32,17 +33,20 @@ def main(argv):
         if opt == '-h':
             print ''
             print 'MQTT_log.py -c <configFile> -o <outputfile> -h -v'
-            print '-i <configFile> fichero de configuracion'
+            print '-c <configFile> fichero de configuracion'
             print '-o <outputFile> fichero de salida. Si no existe se creara, si existe se anadiran lineas al final'
             print '-h esta ayuda'
             print '-v verbose mode'            
+            print '-p salida por pantalla'            
             print ''
             sys.exit()
         elif opt == "-v":
             verbose = True
-        elif opt in ("-i", "--ifile"):
+        elif opt == "-p":
+            pantalla = True
+        elif opt =="-c":
             configFile = arg
-        elif opt in ("-o", "--ofile"):
+        elif opt == "-o":
             outputFile = arg
     print('Iniciando con fichero de configuracion [%s]' %configFile)
     print('Salida direccionda a [%s]' %outputFile)
@@ -57,14 +61,14 @@ def main(argv):
         sys.exit()    
 
     #inicializo el fichero de salida
-    print("Configurando fichero de salida")
-    if (outputFile == ''): verbose==True
-    else:
-        try:
-            f = open (outputFile,"at")
-        except:
-            print("Error al abrir el fichero de salida")
-            sys.exit()        
+    #print("Configurando fichero de salida")
+    #if (outputFile == ''): verbose==True
+    #else:
+    #    try:
+    #        f = open (outputFile,"at")
+    #    except:
+    #        print("Error al abrir el fichero de salida")
+    #        sys.exit()        
 
     #inicializamos la DB
     print("Iniciando la base de datos")
@@ -121,12 +125,16 @@ def main(argv):
         ]
 
         cad = str(json_body)+"\n"
-        if (verbose): print("\n%s" %cad)
+        if (pantalla): print("\n%s" %cad)
 
         #Salida a fichero
-        f = open(outputFile, "at")
-        f.write(cad)
-        f.close()
+        try:
+            f = open(outputFile, "at")
+            f.write(cad)
+            f.close()
+        except:
+            print("Error al escribir en el fichero de salida")
+            pass
 
         if not clienteInflux.write_points(json_body): 
             print ("Error al insertar datos")
