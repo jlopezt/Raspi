@@ -1,7 +1,9 @@
 import json
 
 OK                          =  0
-ERROR_FICHERO_CONFIGURACION = -1
+CONFIGURACION_POR_DEFECTO   = -1
+ERROR_FICHERO_CONFIGURACION = -2
+INICIAL                     = -100
 
 class Configuracion:
     __Broker_IP = 0
@@ -12,6 +14,7 @@ class Configuracion:
     __DB_Puerto = 0
     __BaseDatos = 0
     __Measurement =0
+    __configurado = INICIAL
 
     def __init__(self, fichero, debug = False, Broker_IP = "0.0.0.0",Broker_Puerto = "0",sub_topic = '',pub_topic = '',DB_IP = "0.0.0.0",DB_Puerto = 0,BaseDatos = '',Measurement = ''):
         #valores por defecto sobre el bus MQTT
@@ -30,6 +33,7 @@ class Configuracion:
 
     def __leeConfiguracion(self,fichero,debug=False):
         if (debug==True): print("\nInicio de configuracion----------------------------------------------------------------------")
+        self.__configurado = OK #por defecto va bien...
 
         try:
             #leo el fichero de configuracion
@@ -38,49 +42,70 @@ class Configuracion:
                 if (debug==True): print("Configuracion leida=\n %s" %configuracion)
         except :
             if (debug==True): print("No se pudo obtener el fichero de configuracion")
-            return ERROR_FICHERO_CONFIGURACION
+            self.__configurado = ERROR_FICHERO_CONFIGURACION
+            return
 
         if configuracion.has_key('MQTT'): 
             MQTTConfig = configuracion['MQTT']
 
             if MQTTConfig.has_key('Broker_IP'): self.setBroker_IP(MQTTConfig.pop("Broker_IP"))
             else: 
-                if (debug==True): print("Broker_IP no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("Broker_IP no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
 
             if MQTTConfig.has_key('Broker_Puerto'): self.setBroker_Puerto(MQTTConfig.pop("Broker_Puerto"))
             else: 
-                if (debug==True): print("Broker_Puerto no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("Broker_Puerto no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
 
             if MQTTConfig.has_key('sub_topic'): self.setsub_topic(MQTTConfig.pop("sub_topic"))
             else: 
-                if (debug==True): print("sub_topic no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("sub_topic no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
 
             if MQTTConfig.has_key('pub_topic'): self.setpub_topic(MQTTConfig.pop("pub_topic"))
             else: 
-                if (debug==True): print("pub_topic no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("pub_topic no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
         else: 
-            if (debug==True): print("No se ha configurado MQTT. Valores pore defecto")
+            if (debug==True): 
+                print("No se ha configurado MQTT. Valores pore defecto")
+                self.__configurado = CONFIGURACION_POR_DEFECTO
 
         if configuracion.has_key('DB'): 
             DBConfig = dict(configuracion['DB'])
 
             if DBConfig.has_key('DB_IP'): self.setDB_IP(DBConfig.pop("DB_IP"))
             else: 
-                if (debug==True): print("DB_IP no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("DB_IP no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
 
             if DBConfig.has_key('DB_Puerto'): self.setDB_Puerto(DBConfig.pop("DB_Puerto"))
             else: 
-                if (debug==True): print("DB_Puerto no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("DB_Puerto no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
 
             if DBConfig.has_key('BaseDatos'): self.setBaseDatos(DBConfig.pop("BaseDatos"))
             else: 
-                if (debug==True): print("BaseDatos no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("BaseDatos no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
 
             if DBConfig.has_key('Measurement'): self.setMeasurement(DBConfig.pop("Measurement"))
             else: 
-                if (debug==True): print("Measurement no esta configurado. Valor por defecto.")
+                if (debug==True): 
+                    print("Measurement no esta configurado. Valor por defecto.")
+                    self.__configurado = CONFIGURACION_POR_DEFECTO
         else:
-            if (debug==True): print("No se ha configurado DB. Valores pore defecto")
+            if (debug==True): 
+                print("No se ha configurado DB. Valores pore defecto")
+                self.__configurado = CONFIGURACION_POR_DEFECTO
 
         if (debug==True): print("Configuracion de MQTT")
         if (debug==True): print("Broker_IP = %s" %self.__Broker_IP)
@@ -94,7 +119,6 @@ class Configuracion:
         if (debug==True): print("BaseDatos = %s" %self.__BaseDatos)
         if (debug==True): print("Measurement = %s" %self.__Measurement)
 
-        return OK
 
     def setBroker_IP(self,valor): self.__Broker_IP=valor
     def setBroker_Puerto(self,valor): self.__Broker_Puerto=valor
@@ -114,5 +138,7 @@ class Configuracion:
     def getBaseDatos(self): return self.__BaseDatos
     def getMeasurement(self): return self.__Measurement
 
+    def getConfigurado(self): return self.__configurado
+
 #c=Configuracion('MQTT_log.config.json',True)
-# print(leeConfiguracion(True))
+#print("la salida es %i\n" %c.getConfigurado())
