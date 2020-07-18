@@ -98,28 +98,23 @@ def main(argv):
         #preparo los datos para el json
         current_time = datetime.datetime.utcnow().isoformat()
         #current_time = datetime.datetime.now().isoformat()
-        id=decoded["id"]
-        temperatura= decoded["Temperatura"]
-        humedad= decoded["Humedad"]
-        luz= decoded["Luz"]
 
-        #leo la habitacion
-        cadena=str(msg.topic)
-        habitacion = cadena.split("/")[1]
+        ip=decoded["IP"]
+        freeheap= decoded["freeHeap"]
+	uptime = decoded["Uptime"]
+	potencia = decoded["potencia"]
 
         json_body = [
             {
             "measurement": localConfig.getMeasurement(),
             "tags": {
-                "id": id,
-                "habitacion": habitacion,
-                "topic": str(msg.topic)
+                "id": ip
                 },
             "time": current_time,
             "fields": {
-                "Temperatura": temperatura,
-                "Humedad": humedad,
-                "Luz": luz
+                "uptime": uptime,
+                "freeheap": freeheap,
+		"potencia": potencia
                 }
             }
         ]
