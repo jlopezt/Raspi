@@ -1,0 +1,194 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+#    if ($host = mqtt.lopeztola.com) {
+#        return 301 https://$host$request_uri;
+#    } # managed by Certbot
+#
+#    if ($host = www.lopeztola.com) {
+#        return 301 https://$host$request_uri;
+#    } # managed by Certbot
+#
+#    if ($host = domoticae.lopeztola.com) {
+#        return 301 https://$host$request_uri;
+#    } # managed by Certbot
+#
+#    if ($host != 10.68.0.101) {
+#        return 401;
+#    } # managed by el menda
+
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    # Add index.php to the list if you are using PHP
+    #index index.html index.htm index.nginx-debian.html;
+    index main.html
+
+    server_name _;
+
+        auth_basic   "Entorno de preproduccion";
+        auth_basic_user_file /home/pi/.htpasswd;
+
+        access_log /var/log/nginx/servidorHTTP.log;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	location /termostatix/ {
+		proxy_pass http://10.68.0.60/;
+	}
+
+        location /termostatix {
+                proxy_pass http://10.68.0.60/;
+        }
+
+        location /luzEscalera/ {
+                 proxy_pass http://10.68.0.80/;
+        }
+
+        location /luzEscalera {
+                 proxy_pass http://10.68.0.80;
+        }
+
+        location /navidad/ {        
+                proxy_pass http://10.68.0.52/;
+        }
+
+         location /navidad {
+		proxy_pass http://10.68.0.52/;
+	}
+
+	location /garaje/ {
+		proxy_pass http://10.68.0.52/;
+	}
+
+        location /garaje {
+                proxy_pass http://10.68.0.52/;
+        }
+
+        location /camara/ {
+                proxy_pass http://10.68.0.51/index.html;
+        }
+
+        location /camara {
+                proxy_pass http://10.68.0.51/index.html;
+        }
+
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+server {
+  listen 88;
+  location / {
+    proxy_pass http://10.68.0.51:88;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    }
+  }
+
+
+server {
+
+    listen 443;
+    server_name jlopezt.dlinkddns.com;
+
+    root /var/www/html;
+
+    auth_basic   "Entorno de preproduccion";
+    auth_basic_user_file /home/pi/.htpasswd;
+
+    ssl_certificate           /etc/nginx/certificados/lopeztola_com.crt;
+    ssl_certificate_key       /etc/nginx/certificados/lopeztola_com.key;
+
+    ssl on;
+    ssl_session_cache  builtin:1000  shared:SSL:10m;
+    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+    #ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+    ssl_ciphers 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4';
+    ssl_prefer_server_ciphers on;
+
+    #access_log            /var/log/nginx/IFTTT.access.log;
+    access_log /var/log/nginx/servidorHTTPS.log;
+
+    location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+    }    
+
+    location /ifttt/v1/ {
+
+      proxy_set_header        Host $host;
+      proxy_set_header        X-Real-IP $remote_addr;
+      proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header        X-Forwarded-Proto $scheme;
+
+      # Fix the “It appears that your reverse proxy set up is broken" error.
+      proxy_pass          http://10.68.1.60/;
+      proxy_read_timeout  90;
+
+      proxy_redirect      http://10.68.1.60/ https://jlopezt.dlinkddns.com/ifttt/v1/;
+    }
+  }
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
