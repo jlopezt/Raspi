@@ -19,42 +19,33 @@
 # Default server configuration
 #
 server {
-#Lo ha incluido cetrbot al genera los certificados
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/lopeztola.com-0001/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/lopeztola.com-0001/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    if ($host = mqtt.lopeztola.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
 
-#    if ($host = mqtt.lopeztola.com) {
-#        return 301 https://$host$request_uri;
-#    } # managed by Certbot
-#
-#    if ($host = www.lopeztola.com) {
-#        return 301 https://$host$request_uri;
-#    } # managed by Certbot
-#
-#    if ($host = domoticae.lopeztola.com) {
-#        return 301 https://$host$request_uri;
-#    } # managed by Certbot
-#
-#    if ($host != 10.68.1.100) {
-#        return 401;
-#    } # managed by el menda
+    if ($host = www.lopeztola.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = domoticae.lopeztola.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host != 10.68.1.100) {
+        return 401;
+    } # managed by el menda
 
     root /var/www/html;
 
     # Add index.php to the list if you are using PHP
-    #index index.html index.htm index.nginx-debian.html;
-    index main.html;
+    index index.html index.htm index.nginx-debian.html;
 
-    server_name www.lopeztola.com lopeztola.com;
+    server_name lopeztola.com;
 
     auth_basic "Area restringida";
     auth_basic_user_file /home/pi/.htpasswd;
 
-    access_log /var/log/nginx/servidorHTTPs.log;
+    access_log /var/log/nginx/servidorHTTP.log;
 
     location / {
 	# First attempt to serve request as file, then as directory, then fall back to 
@@ -149,6 +140,15 @@ server {
 	#location ~ /\.ht {
 	#	deny all;
 	#}
+
+#Lo ha incluido cetrbot al genera los certificados
+#    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+#    listen 443 ssl; # managed by Certbot
+#    ssl_certificate /etc/letsencrypt/live/lopeztola.com-0001/fullchain.pem; # managed by Certbot
+#    ssl_certificate_key /etc/letsencrypt/live/lopeztola.com-0001/privkey.pem; # managed by Certbot
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
 
 server {
@@ -177,6 +177,7 @@ server {
     auth_basic_user_file /home/pi/.htpasswd;
 
     root /var/www/html;
+
     ssl_certificate /etc/letsencrypt/live/lopeztola.com-0001/fullchain.pem; # managed by Certbot
     ssl_certificate_key /etc/letsencrypt/live/lopeztola.com-0001/privkey.pem; # managed by Certbot
 
@@ -275,7 +276,6 @@ server {
 
       proxy_redirect http://10.68.1.60/ https://jlopezt.dlinkddns.com/ifttt/v1/;
     }  
-
 }
 
 #***********************************
@@ -286,6 +286,7 @@ server {
     server_name mqtt.lopeztola.com;
 
     root /var/www/html;
+
     ssl_certificate /etc/letsencrypt/live/lopeztola.com-0001/fullchain.pem; # managed by Certbot
     ssl_certificate_key /etc/letsencrypt/live/lopeztola.com-0001/privkey.pem; # managed by Certbot
 
@@ -324,7 +325,6 @@ server {
 #        proxy_set_header Connection "Upgrade";
 #        proxy_set_header Host $host;
 #    }
-
 }
 
 #***********************************
@@ -362,21 +362,3 @@ server {
 #
 #
 #}
-
-server {
-    if ($host = www.lopeztola.com) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    if ($host = lopeztola.com) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-    access_log /var/log/nginx/servidorHTTP.log;
-
-    server_name www.lopeztola.com lopeztola.com;
-    listen 80;
-    return 404; # managed by Certbot
-
-}

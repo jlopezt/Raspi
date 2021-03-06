@@ -1,0 +1,27 @@
+https://mosquitto.org/man/mosquitto-tls-7.html
+http://www.steves-internet-guide.com/mosquitto-tls/
+
+Crear el de la CA:
+0.-Generate a certificate authority certificate and key.
+-->openssl req -new -x509 -days <duration> -extensions v3_ca -keyout ca.key -out ca.cr
+
+Crear los del servidor:
+1.-Generate a server key without encryption.
+-->openssl genrsa -out server.key 2048
+2.-Generate a certificate signing request to send to the CA.
+-->openssl req -out server.csr -key server.key -new
+3.-Sign it with your CA key:
+-->openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days <duration>
+Utilizar el CA del paso 0 y duracion 9999
+
+Pregunta mucha info:
+Pais: ES
+Provincia: Madrid
+Ciudad: Madrid
+Company: Domoticae
+Departamento: DOmoticae
+FQDN: mqtt.lopeztola.com
+Contacto: joloto01@gmail.com
+
+Challenge: mi password antigua
+Compañia: Domoticae

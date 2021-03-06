@@ -1,0 +1,209 @@
+monitorMQTT-->/opt/monitorMQTT
+www-->/var/www
+
+pi@raspberrypi:/etc/apt/sources.list.d $ cat /etc/os-release
+PRETTY_NAME="Raspbian GNU/Linux 10 (buster)"
+NAME="Raspbian GNU/Linux"
+VERSION_ID="10"
+VERSION="10 (buster)"
+VERSION_CODENAME=buster
+ID=raspbian
+ID_LIKE=debian
+HOME_URL="http://www.raspbian.org/"
+SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
+BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
+
+------------------Instalacion--------------------
+alias la='ls -la'
+alias lr='ls -ltr'
+
+SSH:
+-Habilitado en el menu->preferencias->configuracion de raspberry->interfaces->SSH
+
+Mosquitto (https://mosquitto.org/blog/2013/01/mosquitto-debian-repository/):
+1.- wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+2.- sudo apt-key add mosquitto-repo.gpg.key
+3.- sudo wget http://repo.mosquitto.org/debian/mosquitto-buster.list
+4.- apt-get update
+5.- sudo apt-get install mosquitto
+
+NGINX (https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md)
+(http://nginx.org/en/docs/http/request_processing.html):
+1.-sudo apt install nginx
+
+Python (python 3-->https://www.raspberrypi.org/documentation/linux/software/python.md):
+1.- Python 2.7.16 installed by default
+
+paho (https://pypi.org/project/paho-mqtt/)
+1.- pip install paho-mqtt
+
+Influx (https://centurio.net/2018/10/28/howto-install-influxdb-and-grafana-on-a-raspberry-pi-3/)
+(https://www.linuxito.com/cloud/1244-politicas-de-retencion-en-influxdb)
+1.- curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+2.- echo "deb https://repos.influxdata.com/debian stretch stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+3.- sudo apt update
+4.- sudo apt install influxdb
+5.- sudo systemctl enable influxdb
+6.- sudo systemctl start influxdb 
+7.- influx
+8.- CREATE DATABASE casa
+9.- CREATE DATABASE freeheap
+10.- configurar retention policy:
+         pi@raspberrypi:/opt/monitorMQTT $ influx
+         Connected to http://localhost:8086 version 1.8.4
+         InfluxDB shell version: 1.8.4
+         > settings
+         Setting           Value
+         --------          --------
+         URL               http://localhost:8086
+         Username
+         Database
+         RetentionPolicy
+         Pretty            false
+         Format            column
+         Write Consistency all
+         Chunked           true
+         Chunk Size        0
+         
+         > show retention policies on casa;
+         name    duration shardGroupDuration replicaN default
+         ----    -------- ------------------ -------- -------
+         autogen 0s       168h0m0s           1        true
+         > show retention policies on freeheap;
+         name    duration shardGroupDuration replicaN default
+         ----    -------- ------------------ -------- -------
+         autogen 0s       168h0m0s           1        true
+         > create retention policy SEVEN_DAYS on freeheap duration 7d replication 1;
+         > show retention policies on freeheap;
+         name       duration shardGroupDuration replicaN default
+         ----       -------- ------------------ -------- -------
+         autogen    0s       168h0m0s           1        true
+         SEVEN_DAYS 168h0m0s 24h0m0s            1        false
+         >
+         
+
+Grafana (https://grafana.com/tutorials/install-grafana-on-raspberry-pi/)
+1.- wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+2.- echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+3.- sudo apt-get update
+4.- sudo apt-get install -y grafana
+5.- (Enable the Grafana server)	sudo /bin/systemctl enable grafana-server
+6.- (Start the Grafana server) sudo /bin/systemctl start grafana-server
+7.- Open a browser and go to http://<ip address>:3000
+8.- Crear las databases (casa y freeheap)
+9.- crear la carpeta Termostatix
+10.- Importar los dashboard (import->from json y copiar el export del otro)
+
+Certificados mosquitto (https://mcuoneclipse.com/2017/04/14/enable-secure-communication-with-tls-and-the-mosquitto-broker/):
+(D:\arduino\desarrollos\Sketchs\Termostato\Codigo\Raspi\mosquitto\certs_pro
+He copiado los certificados de la raspi2)
+1 y 2.- Me los salto y uso el certificado CA que ya tengo
+3.- openssl genrsa -out m2mqtt_srv.key 2048
+4.- openssl req -new -out m2mqtt_srv.csr -key m2mqtt_srv.key
+
+     You are about to be asked to enter information that will be incorporated
+     into your certificate request.
+     What you are about to enter is what is called a Distinguished Name or a DN.
+     There are quite a few fields but you can leave some blank
+     For some fields there will be a default value,
+     If you enter '.', the field will be left blank.
+     -----
+     Country Name (2 letter code) [AU]:SP
+     State or Province Name (full name) [Some-State]:Madrid
+     Locality Name (eg, city) []:Madrid
+     Organization Name (eg, company) [Internet Widgits Pty Ltd]:Domoticae
+     Organizational Unit Name (eg, section) []:Domoticae
+     Common Name (e.g. server FQDN or YOUR name) []:mqtt.lopeztola.com
+     Email Address []:joloto01@gmail.com
+     
+     Please enter the following 'extra' attributes
+     to be sent with your certificate request
+     A challenge password []:8ty45ew8
+     An optional company name []:Domoticae
+     
+5.- openssl x509 -req -in m2mqtt_srv.csr -CA m2mqtt_ca.crt -CAkey m2mqtt_ca.key -CAcreateserial -out m2mqtt_srv.crt -days 3650
+
+Configuracion Nginx:
+1.-Cambio en nginx.conf:
+	descomentar la linea server_names_hash_bucket_size 64; para pasara de 32 a 64 el parametro
+2.- copiar sites-available
+3.- copiar los certificados de /etc/letsencrypt (live y archive)
+4.- copiar .htpasswd en /home/pi 
+
+Certificados SSL Letsencrypt (https://blog.tiraquelibras.com/?p=535)
+(https://crt.sh/?q=lopeztola.com)
+0.- Parto de cero
+1.- sudo apt-get install certbot
+2.- sudo apt-get install python-certbot-nginx
+3.- sudo certbot --nginx
+     pi@raspberrypi:/etc/letsencrypt $ sudo certbot --nginx
+     Saving debug log to /var/log/letsencrypt/letsencrypt.log
+     Plugins selected: Authenticator nginx, Installer nginx
+     
+     Which names would you like to activate HTTPS for?
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     1: lopeztola.com
+     2: domoticae.lopeztola.com
+     3: mqtt.lopeztola.com
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     Select the appropriate numbers separated by commas and/or spaces, or leave input
+     blank to select all options shown (Enter 'c' to cancel):
+     Obtaining a new certificate
+     Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/default
+     Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/default
+     Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/default
+     
+     Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     1: No redirect - Make no further changes to the webserver configuration.
+     2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+     new sites, or if you're confident your site works on HTTPS. You can undo this
+     change by editing your web server's configuration.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+     Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/default
+     No matching insecure server blocks listening on port 80 found.
+     No matching insecure server blocks listening on port 80 found.
+     
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     Congratulations! You have successfully enabled https://lopeztola.com,
+     https://domoticae.lopeztola.com, and https://mqtt.lopeztola.com
+     
+     You should test your configuration at:
+     https://www.ssllabs.com/ssltest/analyze.html?d=lopeztola.com
+     https://www.ssllabs.com/ssltest/analyze.html?d=domoticae.lopeztola.com
+     https://www.ssllabs.com/ssltest/analyze.html?d=mqtt.lopeztola.com
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     
+     IMPORTANT NOTES:
+      - Congratulations! Your certificate and chain have been saved at:
+        /etc/letsencrypt/live/lopeztola.com-0001/fullchain.pem
+        Your key file has been saved at:
+        /etc/letsencrypt/live/lopeztola.com-0001/privkey.pem
+        Your cert will expire on 2021-06-03. To obtain a new or tweaked
+        version of this certificate in the future, simply run certbot again
+        with the "certonly" option. To non-interactively renew *all* of
+        your certificates, run "certbot renew"
+      - If you like Certbot, please consider supporting our work by:
+     
+        Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+        Donating to EFF:                    https://eff.org/donate-le
+     
+     pi@raspberrypi:/etc/letsencrypt $
+4.- Añadida accion en crontab: 30 2 * * * /usr/bin/certbot renew --renew-hook "service nginx reload"
+    
+crontab
+1.- crontab -l
+2.- crontab -e
+	
+0 0 * * * /home/pi/mydynv6.sh >> mydynv6.log
+0 0 * * 7 /opt/monitorMQTT/rotadoLogs.sh
+@reboot sleep 45; /opt/monitorMQTT/arranqueMQTT_log.sh
+30 2 * * * /usr/bin/certbot renew --renew-hook "service nginx reload"
+
+
+	
+   0 0 * * * /home/pi/mydynv6.sh >> mydynv6.log
+   @reboot sleep 45; /opt/monitorMQTT/arranqueMQTT_log.sh
+   
+   
