@@ -8,7 +8,7 @@
   "DB":{
     "DB_IP" : "10.68.1.100",
     "DB_Puerto" : 8086,
-    "BaseDatos" : "casa",
+    "BaseDatos" : "freeheap",
     "Measurement" : "freeheap"
   }
 }

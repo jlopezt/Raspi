@@ -25,7 +25,7 @@ def main(argv):
     pantalla = False
 
     try:
-        opts, arg = getopt.getopt(sys.argv[1:],"phvc:o:",["ifile=","ofile="])
+        opts, arg = getopt.getopt(argv,"phvc:o:",["ifile=","ofile="])
     except getopt.GetoptError:
         print 'MQTT_log.py -c <configfile> -o <outputfile>'
         sys.exit(2)
@@ -40,13 +40,13 @@ def main(argv):
             print '-p salida por pantalla'            
             print ''
             sys.exit()
-        if opt == "-v":
+        elif opt == "-v":
             verbose = True
-        if opt == "-p":
+        elif opt == "-p":
             pantalla = True
-        if opt =="-c":
+        elif opt =="-c":
             configFile = arg
-        if opt == "-o":
+        elif opt == "-o":
             outputFile = arg
     print('Iniciando con fichero de configuracion [%s]' %configFile)
     print('Salida direccionda a [%s]' %outputFile)

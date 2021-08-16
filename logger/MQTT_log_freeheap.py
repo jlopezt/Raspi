@@ -103,6 +103,8 @@ def main(argv):
         freeheap= decoded["freeHeap"]
 	uptime = decoded["Uptime"]
 	potencia = decoded["potencia"]
+	lastResetReason0 = decoded["lastResetReason0"]
+        lastResetReason1 = decoded["lastResetReason1"]
 
         json_body = [
             {
@@ -114,7 +116,9 @@ def main(argv):
             "fields": {
                 "uptime": uptime,
                 "freeheap": freeheap,
-		"potencia": potencia
+		"potencia": potencia,
+                "lastResetReason0": lastResetReason0,
+                "lastResetReason1": lastResetReason1
                 }
             }
         ]
