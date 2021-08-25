@@ -1,257 +1,905 @@
 {
-  "aliasColors": {},
-  "bars": false,
-  "cacheTimeout": null,
-  "dashLength": 10,
-  "dashes": false,
-  "datasource": "InfluxDB",
-  "fill": 1,
-  "gridPos": {
-    "h": 17,
-    "w": 17,
-    "x": 0,
-    "y": 0
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
+  "description": "Temperaturas de los satelites",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
   "id": 2,
-  "interval": "",
-  "legend": {
-    "avg": true,
-    "current": false,
-    "hideEmpty": true,
-    "max": false,
-    "min": false,
-    "rightSide": false,
-    "show": true,
-    "total": false,
-    "values": true
-  },
-  "lines": true,
-  "linewidth": 1,
   "links": [],
-  "nullPointMode": "null",
-  "percentage": false,
-  "pluginVersion": "6.1.6",
-  "pointradius": 2,
-  "points": false,
-  "renderer": "flot",
-  "repeat": null,
-  "seriesOverrides": [],
-  "spaceLength": 10,
-  "stack": false,
-  "steppedLine": false,
-  "targets": [
+  "panels": [
     {
-      "alias": "",
-      "groupBy": [
-        {
-          "params": [
-            "1m"
-          ],
-          "type": "time"
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "casa",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
         },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "interval": "",
+      "legend": {
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "repeat": null,
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "params": [
-            "habitacion"
+          "alias": "",
+          "groupBy": [
+            {
+              "params": [
+                "1m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "habitacion"
+              ],
+              "type": "tag"
+            }
           ],
-          "type": "tag"
+          "measurement": "termostatix",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"Temperatura\") FROM \"autogen\".\"termostatix\" WHERE $timeFilter GROUP BY time(1m), \"habitacion\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Temperatura"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
-      "measurement": "termostatix",
-      "orderByTime": "ASC",
-      "policy": "autogen",
-      "query": "SELECT mean(\"Temperatura\") FROM \"autogen\".\"termostatix\" WHERE $timeFilter GROUP BY time(1m), \"habitacion\"",
-      "rawQuery": true,
-      "refId": "A",
-      "resultFormat": "time_series",
-      "select": [
-        [
-          {
-            "params": [
-              "Temperatura"
-            ],
-            "type": "field"
-          },
-          {
-            "params": [],
-            "type": "mean"
-          }
-        ]
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [
+        {
+          "$$hashKey": "object:234",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 1,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:235",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 1,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:236",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 2,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:237",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "15:30",
+          "fromDayOfWeek": 2,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:238",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 3,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:239",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "15:30",
+          "fromDayOfWeek": 3,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:240",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 4,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:241",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 4,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:242",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 5,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:243",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 5,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:244",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "7:00",
+          "fromDayOfWeek": 6,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:245",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "7:00",
+          "fromDayOfWeek": 7,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        }
       ],
-      "tags": []
+      "timeShift": null,
+      "title": "Temperaturas",
+      "tooltip": {
+        "shared": true,
+        "sort": 1,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "celsius",
+          "label": "Temperatura",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": true,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "casa",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "interval": "",
+      "legend": {
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "groupBy": [
+            {
+              "params": [
+                "1m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "habitacion"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "termostatix",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"Temperatura\") FROM \"autogen\".\"termostatix\" WHERE $timeFilter GROUP BY time(1m), \"habitacion\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Humedad"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [
+        {
+          "$$hashKey": "object:604",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 1,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:605",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 1,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:606",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 2,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:607",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "15:30",
+          "fromDayOfWeek": 2,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:608",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 3,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:609",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "15:30",
+          "fromDayOfWeek": 3,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:610",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 4,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:611",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 4,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:612",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 5,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:613",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 5,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:614",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "7:00",
+          "fromDayOfWeek": 6,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:615",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "7:00",
+          "fromDayOfWeek": 7,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        }
+      ],
+      "timeShift": null,
+      "title": "Humedad",
+      "tooltip": {
+        "shared": true,
+        "sort": 1,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "humidity",
+          "label": "Humedad",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": true,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "casa",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "interval": "",
+      "legend": {
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "groupBy": [
+            {
+              "params": [
+                "1m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "habitacion"
+              ],
+              "type": "tag"
+            }
+          ],
+          "measurement": "termostatix",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT mean(\"Temperatura\") FROM \"autogen\".\"termostatix\" WHERE $timeFilter GROUP BY time(1m), \"habitacion\"",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Luz"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [
+        {
+          "$$hashKey": "object:974",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 1,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:975",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 1,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:976",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 2,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:977",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "15:30",
+          "fromDayOfWeek": 2,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:978",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 3,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:979",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "15:30",
+          "fromDayOfWeek": 3,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:980",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 4,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:981",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 4,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:982",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "4:45",
+          "fromDayOfWeek": 5,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "6:30"
+        },
+        {
+          "$$hashKey": "object:983",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "12:30",
+          "fromDayOfWeek": 5,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:984",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "7:00",
+          "fromDayOfWeek": 6,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        },
+        {
+          "$$hashKey": "object:985",
+          "colorMode": "green",
+          "fill": true,
+          "fillColor": "rgba(234, 112, 112, 0.12)",
+          "from": "7:00",
+          "fromDayOfWeek": 7,
+          "line": false,
+          "lineColor": "rgba(237, 46, 24, 0.60)",
+          "op": "time",
+          "to": "22:00"
+        }
+      ],
+      "timeShift": null,
+      "title": "Luz",
+      "tooltip": {
+        "shared": true,
+        "sort": 1,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "none",
+          "label": "Luz",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": true,
+        "alignLevel": null
+      }
     }
   ],
-  "thresholds": [],
-  "timeFrom": null,
-  "timeRegions": [
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "4:45",
-      "fromDayOfWeek": 1,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "6:30"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "12:30",
-      "fromDayOfWeek": 1,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "4:45",
-      "fromDayOfWeek": 2,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "6:30"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "15:30",
-      "fromDayOfWeek": 2,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "4:45",
-      "fromDayOfWeek": 3,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "6:30"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "15:30",
-      "fromDayOfWeek": 3,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "4:45",
-      "fromDayOfWeek": 4,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "6:30"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "12:30",
-      "fromDayOfWeek": 4,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "4:45",
-      "fromDayOfWeek": 5,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "6:30"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "12:30",
-      "fromDayOfWeek": 5,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "7:00",
-      "fromDayOfWeek": 6,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    },
-    {
-      "colorMode": "green",
-      "fill": true,
-      "fillColor": "rgba(234, 112, 112, 0.12)",
-      "from": "7:00",
-      "fromDayOfWeek": 7,
-      "line": false,
-      "lineColor": "rgba(237, 46, 24, 0.60)",
-      "op": "time",
-      "to": "22:00"
-    }
+  "refresh": false,
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [
+    "id",
+    "topic",
+    "habitacion"
   ],
-  "timeShift": null,
-  "title": "Temperaturas",
-  "tooltip": {
-    "shared": true,
-    "sort": 1,
-    "value_type": "individual"
+  "templating": {
+    "list": []
   },
-  "type": "graph",
-  "xaxis": {
-    "buckets": null,
-    "mode": "time",
-    "name": null,
-    "show": true,
-    "values": []
+  "time": {
+    "from": "now-6h",
+    "to": "now"
   },
-  "yaxes": [
-    {
-      "decimals": 1,
-      "format": "celsius",
-      "label": "Temperatura",
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
-    },
-    {
-      "format": "short",
-      "label": "",
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": false
-    }
-  ],
-  "yaxis": {
-    "align": true,
-    "alignLevel": null
-  }
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Satelites",
+  "uid": "uthqLVZgz",
+  "version": 5
 }

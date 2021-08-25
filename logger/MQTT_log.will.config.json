@@ -2,8 +2,8 @@
   "MQTT":{
     "Broker_IP": "10.68.1.100",
     "Broker_Puerto" : 1883,
-    "sub_topic" : "casa/will",
-    "pub_topic" : "casa/monitor"
+    "sub_topic" : "casaPre/will",
+    "pub_topic" : "casaPre/monitor"
   },
   "DB":{
     "DB_IP" : "10.68.1.100",

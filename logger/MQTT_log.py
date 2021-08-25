@@ -155,6 +155,8 @@ def main(argv):
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
+
+    client.username_pw_set("domoticae", "88716")
     client.connect(localConfig.getBroker_IP(), localConfig.getBroker_Puerto(), 60)
 
     print("Iniciando ejecucion...")

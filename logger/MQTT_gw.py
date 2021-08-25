@@ -28,12 +28,15 @@ def on_message(client, userdata, msg):
 
 
 clienteHabla = mqtt.Client()
+clienteHabla.username_pw_set("domoticae", "88716")
 clienteHabla.connect(BrokerDestino, 1883, 60)
 
 
 clienteEscucha = mqtt.Client()
 clienteEscucha.on_connect = on_connect
 clienteEscucha.on_message = on_message
+
+clienteEscucha.username_pw_set("domoticae", "88716")
 clienteEscucha.connect(BrokerOrigen, 1883, 60)
 clienteEscucha.loop_forever()
 

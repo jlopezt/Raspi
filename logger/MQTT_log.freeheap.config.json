@@ -1,12 +1,12 @@
 {
   "MQTT":{
-    "Broker_IP": "10.68.1.100",
+    "Broker_IP": "10.68.0.101",
     "Broker_Puerto" : 1883,
-    "sub_topic" : "casa/freeheap",
-    "pub_topic" : "casa/monitor"
+    "sub_topic" : "casaPre/freeheap",
+    "pub_topic" : "casaPre/monitor"
   },
   "DB":{
-    "DB_IP" : "10.68.1.100",
+    "DB_IP" : "10.68.0.101",
     "DB_Puerto" : 8086,
     "BaseDatos" : "freeheap",
     "Measurement" : "freeheap"

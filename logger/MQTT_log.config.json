@@ -1,12 +1,12 @@
 {
   "MQTT":{
-    "Broker_IP": "10.68.1.100",
+    "Broker_IP": "10.68.0.101",
     "Broker_Puerto" : 1883,
     "sub_topic" : "casa/+/medidas",
     "pub_topic" : "casa/monitor"
   },
   "DB":{
-    "DB_IP" : "10.68.1.100",
+    "DB_IP" : "10.68.0.101",
     "DB_Puerto" : 8086,
     "BaseDatos" : "casa",
     "Measurement" : "termostatix"

@@ -24,7 +24,7 @@ Mosquitto (https://mosquitto.org/blog/2013/01/mosquitto-debian-repository/):
 1.- wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
 2.- sudo apt-key add mosquitto-repo.gpg.key
 3.- sudo wget http://repo.mosquitto.org/debian/mosquitto-buster.list
-4.- apt-get update
+4.- sudo apt-get update
 5.- sudo apt-get install mosquitto
 
 NGINX (https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md)
@@ -80,7 +80,8 @@ Influx (https://centurio.net/2018/10/28/howto-install-influxdb-and-grafana-on-a-
          autogen    0s       168h0m0s           1        true
          SEVEN_DAYS 168h0m0s 24h0m0s            1        false
          >
-         
+11.- Instalar el cliente python de influxDB--> pip install influxdb
+        
 
 Grafana (https://grafana.com/tutorials/install-grafana-on-raspberry-pi/)
 1.- wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
@@ -97,6 +98,7 @@ Grafana (https://grafana.com/tutorials/install-grafana-on-raspberry-pi/)
 Certificados mosquitto (https://mcuoneclipse.com/2017/04/14/enable-secure-communication-with-tls-and-the-mosquitto-broker/):
 (D:\arduino\desarrollos\Sketchs\Termostato\Codigo\Raspi\mosquitto\certs_pro
 He copiado los certificados de la raspi2)
+Los certificados estan en /home/pi/certMQTT
 1 y 2.- Me los salto y uso el certificado CA que ya tengo
 3.- openssl genrsa -out m2mqtt_srv.key 2048
 4.- openssl req -new -out m2mqtt_srv.csr -key m2mqtt_srv.key
